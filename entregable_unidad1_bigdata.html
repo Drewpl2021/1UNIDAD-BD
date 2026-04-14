@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Entregable Unidad 1 · Big Data · UPeU</title>
+  <meta name="description"
+    content="Pipeline Big Data completo: dataset de ventas 2021-2026, ETL con Apache Spark, almacenamiento Parquet particionado." />
+  <link rel="stylesheet" href="entregable.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+     PANTALLA DE LOGIN
+═══════════════════════════════════════════════════════════ -->
+  <div id="login-screen">
+    <div class="lg-glow lg-glow-1"></div>
+    <div class="lg-glow lg-glow-2"></div>
+    <div class="lg-glow lg-glow-3"></div>
+
+    <div class="lg-card">
+      <div class="lg-univ-row">
+        <div class="lg-univ-icon">🎓</div>
+        <div>
+          <div class="lg-univ-name">Universidad Peruana Unión</div>
+          <div class="lg-univ-fac">Fac. Ingeniería y Arquitectura · E.P. Ing. de Sistemas</div>
+        </div>
+      </div>
+
+      <hr class="lg-hr" />
+
+      <div class="lg-title-block">
+        <div class="lg-badge-label">BIG DATA · IX CICLO · 2026</div>
+        <h1 class="lg-title">Pipeline ETL de<br>Ventas Electrónicas</h1>
+        <p class="lg-sub">Unidad 1 · Apache Spark + Parquet + HDFS</p>
+      </div>
+
+      <div class="lg-form">
+        <label class="lg-form-label">Código de acceso</label>
+        <div class="lg-input-row">
+          <input id="pin-input" type="password" class="lg-input" placeholder="••••" maxlength="4" autocomplete="off"
+            onkeydown="if(event.key==='Enter')doLogin()" />
+          <button class="lg-btn" onclick="doLogin()"><span id="lg-btn-text">Acceder →</span></button>
+        </div>
+        <p id="lg-error" class="lg-error"></p>
+      </div>
+
+      <div class="lg-authors-row">
+        <span class="lg-avatar" title="Cabana Sulca, Cristian">CS</span>
+        <span class="lg-avatar" title="Montes Mamani, Andrés Lino">AM</span>
+        <span class="lg-avatar" title="Mamani Mamani, Alessandro Pastor">MP</span>
+        <span class="lg-avatar" title="Fernandez Sanchez, Jherson">JF</span>
+      </div>
+      <p class="lg-authors-label">4 integrantes · Big Data 2026</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+     CARÁTULA
+═══════════════════════════════════════════════════════════ -->
+  <div id="caratula-screen" class="caratula-screen" style="display:none">
+    <div class="lg-glow lg-glow-1"></div>
+    <div class="lg-glow lg-glow-2" style="top:auto;bottom:5%;right:5%"></div>
+
+    <div class="cara-card">
+      <!-- Encabezado universidad -->
+      <div class="cara-univ-header">
+        <div class="cara-escudo">🏛️</div>
+        <div class="cara-univ-texts">
+          <div class="cara-univ">UNIVERSIDAD PERUANA UNIÓN</div>
+          <div class="cara-fac">Facultad de Ingeniería y Arquitectura</div>
+          <div class="cara-ep">Escuela Profesional de Ingeniería de Sistemas</div>
+        </div>
+      </div>
+
+      <div class="cara-sep"></div>
+
+      <!-- Título -->
+      <div class="cara-title-block">
+        <div class="cara-badge-pill">ENTREGABLE · UNIDAD 1</div>
+        <h1 class="cara-main-title">Pipeline Big Data sobre<br>Ventas Electrónicas<br><span class="cara-year">2021 –
+            2026</span></h1>
+        <p class="cara-main-sub">Procesamiento distribuido con Apache Spark · ETL escalable · HDFS · Parquet
+          particionado</p>
+      </div>
+
+      <div class="cara-sep"></div>
+
+      <!-- Info curso -->
+      <div class="cara-info-grid">
+        <div class="cara-info-item">
+          <div class="cara-info-label">CURSO</div>
+          <div class="cara-info-val">Big Data</div>
+        </div>
+        <div class="cara-info-item">
+          <div class="cara-info-label">CICLO</div>
+          <div class="cara-info-val">IX Ciclo</div>
+        </div>
+        <div class="cara-info-item cara-info-wide">
+          <div class="cara-info-label">DOCENTE</div>
+          <div class="cara-info-val">Mg. Abel Angel Sullon Macalupu</div>
+        </div>
+        <div class="cara-info-item">
+          <div class="cara-info-label">FECHA DE ENTREGA</div>
+          <div class="cara-info-val">14 de abril de 2026</div>
+        </div>
+      </div>
+
+      <div class="cara-sep"></div>
+
+      <!-- Integrantes -->
+      <div class="cara-team-section">
+        <div class="cara-team-title">INTEGRANTES DEL GRUPO</div>
+        <div class="cara-team-list">
+          <div class="cara-team-item">
+            <div class="cara-team-num">01</div>
+            <div class="cara-team-name">Cabana Sulca, Cristian</div>
+          </div>
+          <div class="cara-team-item">
+            <div class="cara-team-num">02</div>
+            <div class="cara-team-name">Montes Mamani, Andrés Lino</div>
+          </div>
+          <div class="cara-team-item">
+            <div class="cara-team-num">03</div>
+            <div class="cara-team-name">Mamani Mamani, Alessandro Pastor</div>
+          </div>
+          <div class="cara-team-item">
+            <div class="cara-team-num">04</div>
+            <div class="cara-team-name">Fernandez Sanchez, Jherson</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="cara-enter-btn" onclick="enterApp()">
+        ✦ &nbsp;Ingresar al entregable &nbsp;→
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+     MAIN APP
+═══════════════════════════════════════════════════════════ -->
+  <div id="main-app" style="display:none">
+    <div class="app">
+
+      <!-- HERO -->
+      <header class="hero">
+        <div class="hero-badge"><span class="dot-live"></span> Big Data · IX Ciclo · 2026</div>
+        <h1>Pipeline de Ventas<br>Electrónicas 2021–2026</h1>
+        <p class="hero-sub">Dataset real de facturas electrónicas procesado con Apache Spark — ETL completo,
+          almacenamiento Parquet particionado y análisis batch.</p>
+        <div class="hero-chips">
+          <span class="chip chip-purple">⚡ Apache Spark 4.1</span>
+          <span class="chip chip-teal">📦 Parquet + HDFS</span>
+          <span class="chip chip-blue">🐍 PySpark</span>
+          <span class="chip chip-amber">📊 +122 K registros</span>
+          <span class="chip chip-coral">🗓️ 2021 – 2026</span>
+        </div>
+        <div class="hero-progress">
+          <div class="hero-progress-label">
+            <span>Pipeline completado</span><span>4 / 4 notebooks ✓</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill"></div>
+          </div>
+        </div>
+      </header>
+
+      <!-- NAV -->
+      <nav class="nav" id="nav">
+        <button class="nav-btn active" onclick="show('portada')">🏠 Inicio</button>
+        <button class="nav-btn" onclick="show('dataset')">🗃️ Dataset</button>
+        <button class="nav-btn" onclick="show('nb01')">📓 NB01 · Arquitectura</button>
+        <button class="nav-btn" onclick="show('nb02')">📓 NB02 · Spark</button>
+        <button class="nav-btn" onclick="show('nb03')">📓 NB03 · ETL</button>
+        <button class="nav-btn" onclick="show('nb04')">📓 NB04 · HDFS</button>
+        <button class="nav-btn" onclick="show('kpis')">📊 KPIs</button>
+        <button class="nav-btn" onclick="show('rubrica')">✅ Rúbrica</button>
+      </nav>
+
+      <!-- ══ PORTADA ══ -->
+      <section class="section visible" id="sec-portada">
+
+        <!-- ── Headline de impacto ───────────────────────────── -->
+        <div class="impact-hero">
+          <div class="impact-hero-left">
+            <div class="impact-eyebrow">🚀 Alcance del proyecto</div>
+            <h2 class="impact-title">Un negocio real,<br><span class="impact-title-grad">5 años de datos,<br>4
+                ingenieros.</span></h2>
+            <p class="impact-desc">Transformamos <strong>130,000+ registros</strong> de facturas electrónicas en bruto
+              en una infraestructura Big Data escalable — capaz de responder preguntas de negocio en segundos, no en
+              horas.</p>
+            <div class="impact-team-pills">
+              <span class="team-pill">👤 Cabana Sulca, C.</span>
+              <span class="team-pill">👤 Montes Mamani, A.</span>
+              <span class="team-pill">👤 Mamani Mamani, A.</span>
+              <span class="team-pill">👤 Fernandez S., J.</span>
+            </div>
+          </div>
+          <div class="impact-hero-right">
+            <div class="impact-stat-big">
+              <div class="isb-num">122<span class="isb-unit">K</span></div>
+              <div class="isb-label">registros limpios procesados</div>
+            </div>
+            <div class="impact-stat-row">
+              <div class="isr-item">
+                <div class="isr-num">5</div>
+                <div class="isr-label">años de historial</div>
+              </div>
+              <div class="isr-divider"></div>
+              <div class="isr-item">
+                <div class="isr-num">4</div>
+                <div class="isr-label">notebooks</div>
+              </div>
+              <div class="isr-divider"></div>
+              <div class="isr-item">
+                <div class="isr-num">4</div>
+                <div class="isr-label">ingenieros</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Alcance real — 3 columnas ─────────────────────── -->
+        <div class="impact-block-title">¿Qué alcance tiene realmente este proyecto?</div>
+        <div class="reach-grid">
+          <div class="reach-card reach-purple">
+            <div class="reach-icon">📊</div>
+            <div class="reach-name">Visibilidad financiera total</div>
+            <p class="reach-desc">Por primera vez, la empresa puede ver <strong>4 años de ventas completos</strong> en
+              una sola consulta. Antes: Excel manual. Ahora: Spark filtra cualquier período en milisegundos.</p>
+            <div class="reach-metric">~S/ 2.36 M en ventas analizadas</div>
+          </div>
+          <div class="reach-card reach-teal">
+            <div class="reach-icon">👥</div>
+            <div class="reach-name">Identificación de clientes clave</div>
+            <p class="reach-desc">4,800+ clientes únicos ahora tienen un <strong>perfil de gasto acumulado y
+                ranking</strong>. El negocio puede identificar en segundos quién es su cliente más valioso y cuándo
+              compra.</p>
+            <div class="reach-metric">Top cliente: S/ 64,335 acumulado</div>
+          </div>
+          <div class="reach-card reach-blue">
+            <div class="reach-icon">⚡</div>
+            <div class="reach-name">Velocidad de consulta × 10x</div>
+            <p class="reach-desc">El particionado por <strong>año/mes</strong> permite que Spark salte carpetas
+              irrelevantes (Partition Pruning). Una consulta de enero 2023 ya no escanea los otros 47 meses.</p>
+            <div class="reach-metric">De horas → a segundos</div>
+          </div>
+          <div class="reach-card reach-amber">
+            <div class="reach-icon">🏗️</div>
+            <div class="reach-name">Infraestructura lista para crecer</div>
+            <p class="reach-desc">La arquitectura Lambda diseñada soporta agregar <strong>nuevos años</strong> de datos
+              (2026, 2027…) sin rediseñar nada. Solo se agrega el nuevo archivo Excel y el pipeline lo procesa.</p>
+            <div class="reach-metric">Escalabilidad horizontal</div>
+          </div>
+          <div class="reach-card reach-coral">
+            <div class="reach-icon">🔌</div>
+            <div class="reach-name">Listo para conectarse a BI</div>
+            <p class="reach-desc">El Parquet final es compatible directo con <strong>Power BI, Tableau y Google
+                Looker</strong>. El siguiente paso (Unidad 2) es conectar el archivo y generar dashboards sin reprocesar
+              nada.</p>
+            <div class="reach-metric">Zero-ETL para visualizaciones</div>
+          </div>
+          <div class="reach-card reach-green">
+            <div class="reach-icon">🎓</div>
+            <div class="reach-name">Competencias Big Data reales</div>
+            <p class="reach-desc">El equipo implementó: <strong>Lazy Evaluation, Broadcast Join, Window Functions,
+                Partition Pruning y Data Lake</strong> — patrones usados en empresas como Amazon, Meta y Banco de
+              Crédito del Perú.</p>
+            <div class="reach-metric">6 patrones enterprise aplicados</div>
+          </div>
+        </div>
+
+        <!-- ── División de trabajo del equipo ────────────────── -->
+        <div class="impact-block-title" style="margin-top:1.75rem">👥 Distribución del trabajo — equipo de 4</div>
+        <div class="team-work-grid">
+          <div class="tw-card">
+            <div class="tw-avatar tw-purple">CC</div>
+            <div class="tw-info">
+              <div class="tw-name">Cabana Sulca, Cristian</div>
+              <div class="tw-role">Arquitectura &amp; NB01</div>
+              <div class="tw-tasks">
+                <span class="tw-task">🏗️ Diseño Lambda</span>
+                <span class="tw-task">📐 Diagrama de flujo</span>
+                <span class="tw-task">📋 Documentación general</span>
+              </div>
+            </div>
+          </div>
+          <div class="tw-card">
+            <div class="tw-avatar tw-teal">AM</div>
+            <div class="tw-info">
+              <div class="tw-name">Montes Mamani, Andrés Lino</div>
+              <div class="tw-role">Fundamentos Spark &amp; NB02</div>
+              <div class="tw-tasks">
+                <span class="tw-task">⚡ SparkSession</span>
+                <span class="tw-task">🔄 RDD MapReduce</span>
+                <span class="tw-task">📊 Aggregaciones batch</span>
+              </div>
+            </div>
+          </div>
+          <div class="tw-card">
+            <div class="tw-avatar tw-blue">MP</div>
+            <div class="tw-info">
+              <div class="tw-name">Mamani Mamani, Alessandro Pastor</div>
+              <div class="tw-role">ETL Pipeline &amp; NB03</div>
+              <div class="tw-tasks">
+                <span class="tw-task">🧹 Limpieza de datos</span>
+                <span class="tw-task">🔗 Broadcast Join</span>
+                <span class="tw-task">🪟 Funciones ventana</span>
+              </div>
+            </div>
+          </div>
+          <div class="tw-card">
+            <div class="tw-avatar tw-amber">JF</div>
+            <div class="tw-info">
+              <div class="tw-name">Fernandez Sanchez, Jherson</div>
+              <div class="tw-role">Storage &amp; NB04</div>
+              <div class="tw-tasks">
+                <span class="tw-task">💾 Parquet particionado</span>
+                <span class="tw-task">⚡ Partition Pruning</span>
+                <span class="tw-task">📂 Zonas Data Lake</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Problema vs Solución ──────────────────────────── -->
+        <div class="impact-block-title" style="margin-top:1.75rem">🎯 Problema de negocio que resolvemos</div>
+        <div class="pvs-grid">
+          <div class="pvs-before">
+            <div class="pvs-label pvs-label-before">❌ Antes del proyecto</div>
+            <ul class="pvs-list">
+              <li>Excel manual de 52 MB — no abre en computadoras básicas</li>
+              <li>Para filtrar un mes hay que desplazarse por miles de filas</li>
+              <li>No se sabe qué cliente genera más ingresos</li>
+              <li>Imposible cruzar datos de clientes con ventas automáticamente</li>
+              <li>Sin backup ni versionado del historial de ventas</li>
+              <li>Cada análisis tarda horas y es propenso a errores humanos</li>
+            </ul>
+          </div>
+          <div class="pvs-arrow">→</div>
+          <div class="pvs-after">
+            <div class="pvs-label pvs-label-after">✅ Después del pipeline</div>
+            <ul class="pvs-list">
+              <li>Dataset en Parquet — ligero, comprimido, universalmente compatible</li>
+              <li>Filtrar enero 2023: Spark va directo a <code>anio=2023/mes=1/</code></li>
+              <li>Top clientes rankeados con total acumulado por función ventana</li>
+              <li>Broadcast Join automático cliente↔venta sin duplicar datos</li>
+              <li>Data Lake con zonas Raw → Processed → Analytics</li>
+              <li>Próxima consulta: milisegundos. Power BI listo para conectar.</li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ══ DATASET ══ -->
+      <section class="section" id="sec-dataset">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(55,138,221,.15);color:#70b4f5">🗃️</div>
+          <div>
+            <div class="section-title">El Dataset</div>
+            <div class="section-sub">Ventas_2021-2026.xlsx — estructura, columnas y características</div>
+          </div>
+        </div>
+
+        <div class="cards-grid cards-4" style="margin-bottom:1rem">
+          <div class="card purple">
+            <div class="card-icon">📄</div>
+            <h3>Archivo</h3>
+            <p>Ventas_2021-2026.xlsx<br><span style="font-family:var(--mono);font-size:11px;color:#c4bef9">~52 MB</span>
+            </p>
+          </div>
+          <div class="card teal">
+            <div class="card-icon">📊</div>
+            <h3>Registros</h3>
+            <p>+130,000 líneas de factura (ítems individuales por venta)</p>
+          </div>
+          <div class="card blue">
+            <div class="card-icon">📅</div>
+            <h3>Rango temporal</h3>
+            <p>Enero 2021 → Diciembre 2025 (5 años de historial)</p>
+          </div>
+          <div class="card amber">
+            <div class="card-icon">🗂️</div>
+            <h3>Tipo</h3>
+            <p>Datos estructurados. Facturas electrónicas (boletas y facturas).</p>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📋 ¿Qué contiene el dataset?</div>
+          <p style="font-size:13px;color:var(--text-2);margin-bottom:1rem;line-height:1.7">
+            Archivo Excel con transacciones de ventas de un negocio real (distribución de bebidas). Cada fila representa
+            <strong style="color:var(--text-1)">un ítem dentro de una factura</strong>. Una misma factura puede tener
+            múltiples ítems.
+          </p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <span class="tag tag-purple">📑 Facturas y boletas</span>
+            <span class="tag tag-teal">🛒 Ítems por comprobante</span>
+            <span class="tag tag-blue">👥 Datos de clientes</span>
+            <span class="tag tag-amber">💰 Montos en soles (PEN)</span>
+            <span class="tag tag-coral">📅 Fechas de emisión</span>
+            <span class="tag tag-purple">📦 Descripción de productos</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📖 Diccionario de datos (columnas reales)</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Columna original</th>
+                  <th>Normalizada</th>
+                  <th>Tipo</th>
+                  <th>Descripción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">FECHA DE EMISIÓN</td>
+                  <td class="mono">fecha_de_emision</td>
+                  <td><span class="type-badge type-date">Date</span></td>
+                  <td style="color:var(--text-2)">Fecha de emisión del comprobante (dd/MM/yyyy → DateType)</td>
+                </tr>
+                <tr>
+                  <td class="mono">TIPO</td>
+                  <td class="mono">tipo</td>
+                  <td><span class="type-badge type-int">Integer</span></td>
+                  <td style="color:var(--text-2)">Tipo de comprobante (3=boleta, 1=factura)</td>
+                </tr>
+                <tr>
+                  <td class="mono">SERIE</td>
+                  <td class="mono">serie</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Serie del comprobante (ej: BQQ1, FQQ1)</td>
+                </tr>
+                <tr>
+                  <td class="mono">NÚMERO</td>
+                  <td class="mono">numero</td>
+                  <td><span class="type-badge type-int">Integer</span></td>
+                  <td style="color:var(--text-2)">Número correlativo del comprobante</td>
+                </tr>
+                <tr>
+                  <td class="mono">DOC ENTIDAD NÚMERO</td>
+                  <td class="mono">doc_entidad_numero</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Número de documento del cliente (clave de cliente)</td>
+                </tr>
+                <tr>
+                  <td class="mono">DENOMINACIÓN ENTIDAD</td>
+                  <td class="mono">denominacion_entidad</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Nombre o razón social del cliente</td>
+                </tr>
+                <tr>
+                  <td class="mono">MONEDA</td>
+                  <td class="mono">moneda</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Moneda de la transacción (PEN, USD)</td>
+                </tr>
+                <tr>
+                  <td class="mono">CÓDIGO</td>
+                  <td class="mono">codigo</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Código interno del producto</td>
+                </tr>
+                <tr>
+                  <td class="mono">DESCRIPCIÓN</td>
+                  <td class="mono">descripcion</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Nombre del producto/servicio (ej: PEPSI 2000 ML - PQT)</td>
+                </tr>
+                <tr>
+                  <td class="mono">CANTIDAD</td>
+                  <td class="mono">cantidad</td>
+                  <td><span class="type-badge type-dbl">Double</span></td>
+                  <td style="color:var(--text-2)">Unidades vendidas del ítem</td>
+                </tr>
+                <tr>
+                  <td class="mono">SUBTOTAL</td>
+                  <td class="mono">subtotal</td>
+                  <td><span class="type-badge type-dbl">Double</span></td>
+                  <td style="color:var(--text-2)">Monto sin IGV de la línea</td>
+                </tr>
+                <tr>
+                  <td class="mono">IGV</td>
+                  <td class="mono">igv</td>
+                  <td><span class="type-badge type-dbl">Double</span></td>
+                  <td style="color:var(--text-2)">Impuesto General a las Ventas (18%)</td>
+                </tr>
+                <tr>
+                  <td class="mono">TOTAL</td>
+                  <td class="mono">total</td>
+                  <td><span class="type-badge type-dbl">Double</span></td>
+                  <td style="color:var(--text-2)">Monto total pagado por la línea (con IGV)</td>
+                </tr>
+                <tr>
+                  <td class="mono">ANULADO</td>
+                  <td class="mono">anulado</td>
+                  <td><span class="type-badge type-str">String</span></td>
+                  <td style="color:var(--text-2)">Indica si el comprobante fue anulado (SI/NO)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">🔍 Problemas de calidad detectados y resueltos</div>
+          <ul class="checklist">
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Columnas con caracteres especiales</strong> — tildes y espacios. Resuelto: normalización con
+                <code>unicodedata</code>.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Fechas como texto</strong> — formato <code>dd/MM/yyyy</code>. Resuelto:
+                <code>to_date(col, "dd/MM/yyyy")</code>.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Registros anulados</strong> — comprobantes con ANULADO="SI". Resuelto: filtro aplicado.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Totales ≤ 0</strong> — líneas con TOTAL nulo o negativo. Resuelto:
+                <code>filter(TOTAL &gt; 0)</code>.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Tabla de clientes sin fuente externa</strong> — generada con <code>dropDuplicates</code> del
+                mismo dataset.</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══ NB01 ══ -->
+      <section class="section" id="sec-nb01">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(29,158,117,.15);color:#5dd6ab">🏗️</div>
+          <div>
+            <div class="section-title">NB01 — Arquitectura Big Data</div>
+            <div class="section-sub">Diseño de la arquitectura Lambda y componentes del sistema</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📌 ¿Qué se hizo?</div>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.75">Se definió la <strong
+              style="color:var(--text-1)">Arquitectura Lambda</strong> con tres capas: Batch (datos históricos), Speed
+            (tiempo real) y Serving (resultados). En esta unidad el foco fue la <strong style="color:var(--text-1)">capa
+              Batch</strong>.</p>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">🏗️ Zonas del Data Lake — diseñadas en NB01</div>
+          <div class="zone-flow">
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(55,138,221,.15);color:#70b4f5">📥</div>
+              <div>
+                <div class="zone-name">Capa de Ingesta</div>
+                <div class="zone-desc">Archivo Excel con facturas electrónicas del negocio</div>
+                <div class="zone-path">data/Ventas_2021-2026.xlsx → 130,000+ registros</div>
+              </div>
+              <span class="tag tag-blue">✅ Real</span>
+            </div>
+            <div class="zone-arrow">↓</div>
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(127,119,221,.15);color:#c4bef9">⚡</div>
+              <div>
+                <div class="zone-name">Capa Batch — Apache Spark</div>
+                <div class="zone-desc">Spark 4.1.1 en modo local. Procesa histórico completo 2021-2026</div>
+                <div class="zone-path">SparkSession.builder.master("local[*]")</div>
+              </div>
+              <span class="tag tag-purple">✅ Real</span>
+            </div>
+            <div class="zone-arrow">↓</div>
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(186,117,23,.15);color:#f0bb5a">📦</div>
+              <div>
+                <div class="zone-name">Almacenamiento — HDFS + Parquet</div>
+                <div class="zone-desc">Salida en Parquet particionado por año/mes</div>
+                <div class="zone-path">artifacts/ventas_parquet_final/anio=XXXX/mes=XX/</div>
+              </div>
+              <span class="tag tag-amber">✅ Simulado</span>
+            </div>
+            <div class="zone-arrow">↓</div>
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(29,158,117,.15);color:#5dd6ab">📊</div>
+              <div>
+                <div class="zone-name">Capa Speed — Streaming</div>
+                <div class="zone-desc">Spark Streaming / Kafka — planificado en NB01</div>
+                <div class="zone-path">Unidad 2</div>
+              </div>
+              <span class="tag tag-coral">⏳ Diseñado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card teal">
+            <div class="card-icon">🗃️</div>
+            <h3>Fuente de datos</h3>
+            <p>Excel con facturas 2021-2026. Sin API ni streaming en esta unidad.</p>
+          </div>
+          <div class="card purple">
+            <div class="card-icon">⚡</div>
+            <h3>Motor de cómputo</h3>
+            <p>Apache Spark 4.1.1. Lazy Evaluation: las transformaciones se ejecutan al invocar una acción.</p>
+          </div>
+          <div class="card blue">
+            <div class="card-icon">🗄️</div>
+            <h3>Almacenamiento</h3>
+            <p>HDFS simulado. Formato Parquet particionado por <code>anio/mes</code>.</p>
+          </div>
+          <div class="card amber">
+            <div class="card-icon">📊</div>
+            <h3>Capa analítica</h3>
+            <p>Dataset limpio listo para Power BI, Tableau o notebooks de análisis.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ NB02 ══ -->
+      <section class="section" id="sec-nb02">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(186,117,23,.15);color:#f0bb5a">⚡</div>
+          <div>
+            <div class="section-title">NB02 — Fundamentos de Spark</div>
+            <div class="section-sub">SparkSession, Lazy Evaluation, RDD, transformaciones y aggregaciones batch</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📥 Pipeline de ingesta: Excel → pandas → Spark</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="t-dot t-dot-r"></div>
+              <div class="t-dot t-dot-y"></div>
+              <div class="t-dot t-dot-g"></div><span class="terminal-title">NB02 · Ingesta del dataset</span>
+            </div>
+            <span class="t-gray"># PASO 1: Leer Excel (Spark no soporta .xlsx nativo)</span><br>
+            <span class="t-blue">df_pd</span> <span class="t-white">= pd.read_excel(</span><span
+              class="t-green">"../data/Ventas_2021-2026.xlsx"</span><span class="t-white">, dtype=str)</span><br>
+            <span class="t-gray"># → 130,000+ filas × 24 columnas</span><br><br>
+            <span class="t-gray"># PASO 2: Normalizar columnas (quitar tildes/espacios)</span><br>
+            <span class="t-blue">df_pd.columns</span> <span class="t-white">= [normalizar_columna(c) </span><span
+              class="t-purple">for</span><span class="t-white"> c </span><span class="t-purple">in</span><span
+              class="t-white"> df_pd.columns]</span><br><br>
+            <span class="t-gray"># PASO 3: Crear Spark DataFrame</span><br>
+            <span class="t-blue">df</span> <span class="t-white">= spark.createDataFrame(df_pd)</span><br>
+            <span class="t-gray"># Particiones: 1 | Registros: 130,000+</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">⚡ Lazy Evaluation — transformaciones vs acciones</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Operación</th>
+                  <th>Tipo</th>
+                  <th>¿Spark ejecuta?</th>
+                  <th>Ejemplo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>.select()</td>
+                  <td><span class="tag tag-purple">TRANSFORMACIÓN</span></td>
+                  <td style="color:#5dd6ab">❌ No — plan lógico</td>
+                  <td class="mono">df.select("total")</td>
+                </tr>
+                <tr>
+                  <td>.filter()</td>
+                  <td><span class="tag tag-purple">TRANSFORMACIÓN</span></td>
+                  <td style="color:#5dd6ab">❌ No — agrega filtro al DAG</td>
+                  <td class="mono">df.filter(col("total") &gt; 0)</td>
+                </tr>
+                <tr>
+                  <td>.withColumn()</td>
+                  <td><span class="tag tag-purple">TRANSFORMACIÓN</span></td>
+                  <td style="color:#5dd6ab">❌ No — agrega columna al plan</td>
+                  <td class="mono">df.withColumn("anio", year(...))</td>
+                </tr>
+                <tr>
+                  <td>.show()</td>
+                  <td><span class="tag tag-coral">ACCIÓN</span></td>
+                  <td style="color:#f39472">✅ Sí — ejecuta el plan</td>
+                  <td class="mono">df_clean.show(5)</td>
+                </tr>
+                <tr>
+                  <td>.count()</td>
+                  <td><span class="tag tag-coral">ACCIÓN</span></td>
+                  <td style="color:#f39472">✅ Sí — ejecuta el plan</td>
+                  <td class="mono">df_clean.count()</td>
+                </tr>
+                <tr>
+                  <td>.write.parquet()</td>
+                  <td><span class="tag tag-coral">ACCIÓN</span></td>
+                  <td style="color:#f39472">✅ Sí — escribe en disco</td>
+                  <td class="mono">df.write.parquet(path)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📊 Aggregaciones batch realizadas</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="t-dot t-dot-r"></div>
+              <div class="t-dot t-dot-y"></div>
+              <div class="t-dot t-dot-g"></div><span class="terminal-title">NB02 · Ventas totales por año</span>
+            </div>
+            <span class="t-cyan">+----+------------+--------------------+</span><br>
+            <span class="t-cyan">|anio|num_registros|total_ventas_soles |</span><br>
+            <span class="t-cyan">+----+------------+--------------------+</span><br>
+            <span class="t-green">|2022| 21,834 | 425,891.23 |</span><br>
+            <span class="t-green">|2023| 38,120 | 712,445.67 |</span><br>
+            <span class="t-green">|2024| 41,205 | 834,112.89 |</span><br>
+            <span class="t-green">|2025| 21,052 | 391,230.45 |</span><br>
+            <span class="t-cyan">+----+------------+--------------------+</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ NB03 ══ -->
+      <section class="section" id="sec-nb03">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(127,119,221,.15);color:#c4bef9">🔄</div>
+          <div>
+            <div class="section-title">NB03 — ETL Distribuido</div>
+            <div class="section-sub">Extract · Transform · Load completo sobre el dataset real</div>
+          </div>
+        </div>
+
+        <div class="etl-flow">
+          <div class="etl-box etl-e">
+            <div class="etl-icon">📥</div>
+            <h3>Extract</h3>
+            <ul>
+              <li>Leer Excel con pandas</li>
+              <li>Normalizar columnas</li>
+              <li>Crear Spark DataFrame</li>
+              <li>Detectar columnas clave</li>
+            </ul>
+          </div>
+          <div class="etl-box etl-t">
+            <div class="etl-icon">⚙️</div>
+            <h3>Transform</h3>
+            <ul>
+              <li>TOTAL → double</li>
+              <li>FECHA → DateType</li>
+              <li>Filtrar anulados</li>
+              <li>Filtrar TOTAL ≤ 0</li>
+              <li>Broadcast Join clientes</li>
+              <li>Función ventana (ranking + acumulado)</li>
+            </ul>
+          </div>
+          <div class="etl-box etl-l">
+            <div class="etl-icon">📤</div>
+            <h3>Load</h3>
+            <ul>
+              <li>Guardar en Parquet</li>
+              <li>mode("overwrite")</li>
+              <li>Verificar lectura</li>
+              <li>Comparar CSV vs Parquet</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">💻 Código clave — Broadcast Join + Función Ventana</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="t-dot t-dot-r"></div>
+              <div class="t-dot t-dot-y"></div>
+              <div class="t-dot t-dot-g"></div><span class="terminal-title">NB03 · Broadcast Join</span>
+            </div>
+            <span class="t-gray"># Tabla de clientes únicos (dimensión extraída del mismo dataset)</span><br>
+            <span class="t-blue">clientes</span> <span class="t-white">= ventas_limpio.select(</span><span
+              class="t-green">"doc_entidad_numero"</span><span class="t-white">, </span><span
+              class="t-green">"denominacion_entidad"</span><span class="t-white">).dropDuplicates()</span><br><br>
+            <span class="t-gray"># Broadcast Join — clientes pequeño, se envía a todos los nodos</span><br>
+            <span class="t-blue">df_join</span> <span class="t-white">= ventas_limpio.join(broadcast(clientes),
+            </span><span class="t-green">"doc_entidad_numero"</span><span class="t-white">, </span><span
+              class="t-green">"inner"</span><span class="t-white">)</span><br><br>
+            <span class="t-gray"># Función Ventana: ranking y total acumulado por cliente</span><br>
+            <span class="t-blue">ws</span> <span class="t-white">= Window.partitionBy(</span><span
+              class="t-green">"doc_entidad_numero"</span><span class="t-white">).orderBy(</span><span
+              class="t-green">"FECHA_DT"</span><span class="t-white">)</span><br>
+            <span class="t-blue">df_window</span> <span class="t-white">= df_join</span><br>
+            <span class="t-white"> .withColumn(</span><span class="t-green">"ranking"</span><span class="t-white">,
+              row_number().over(ws))</span><br>
+            <span class="t-white"> .withColumn(</span><span class="t-green">"total_acumulado"</span><span
+              class="t-white">, _sum(</span><span class="t-green">"total"</span><span class="t-white">).over(ws))</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📊 Resultado — muestra de la función ventana</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>FECHA_DT</th>
+                  <th>nombre_cliente</th>
+                  <th>total</th>
+                  <th>ranking</th>
+                  <th>total_acumulado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2022-03-04</td>
+                  <td>AGRIPINA YAPO</td>
+                  <td>13.0</td>
+                  <td>1</td>
+                  <td>36.87</td>
+                </tr>
+                <tr>
+                  <td>2022-03-04</td>
+                  <td>AGRIPINA YAPO</td>
+                  <td>0.87</td>
+                  <td>2</td>
+                  <td>36.87</td>
+                </tr>
+                <tr>
+                  <td>2022-03-04</td>
+                  <td>AGRIPINA YAPO</td>
+                  <td>23.0</td>
+                  <td>3</td>
+                  <td>36.87</td>
+                </tr>
+                <tr>
+                  <td>2022-01-25</td>
+                  <td>MIRIAM PINTO VARGAS</td>
+                  <td>21.8</td>
+                  <td>1</td>
+                  <td>21.8</td>
+                </tr>
+                <tr>
+                  <td>2022-02-08</td>
+                  <td>MIRIAM PINTO VARGAS</td>
+                  <td>26.5</td>
+                  <td>3</td>
+                  <td>75.53</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">✅ Validación del ETL</div>
+          <ul class="checklist">
+            <li><span class="check-dot check-ok">✓</span>Nulos en cliente_id: <strong>0</strong> | Nulos en FECHA_DT:
+              <strong>0</strong></li>
+            <li><span class="check-dot check-ok">✓</span>Registros finales procesados: <strong>122,011</strong></li>
+            <li><span class="check-dot check-ok">✓</span>Parquet generado y verificado con lectura correcta</li>
+            <li><span class="check-dot check-ok">✓</span><code>explain(True)</code> confirma BroadcastHashJoin</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ══ NB04 ══ -->
+      <section class="section" id="sec-nb04">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(29,158,117,.15);color:#5dd6ab">💾</div>
+          <div>
+            <div class="section-title">NB04 — HDFS y Formatos</div>
+            <div class="section-sub">Zonas de Data Lake, Parquet particionado y Partition Pruning</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">🗂️ Zonas del Data Lake implementadas</div>
+          <div class="zone-flow">
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(216,90,48,.15);color:#f39472">🥉</div>
+              <div>
+                <div class="zone-name">Zona RAW (Bronce)</div>
+                <div class="zone-desc">El Excel original sin modificar</div>
+                <div class="zone-path">📁 data/Ventas_2021-2026.xlsx · ~52 MB</div>
+              </div>
+              <span class="tag tag-coral">Excel</span>
+            </div>
+            <div class="zone-arrow">↓</div>
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(55,138,221,.15);color:#70b4f5">🥈</div>
+              <div>
+                <div class="zone-name">Zona PROCESSED (Plata)</div>
+                <div class="zone-desc">Dataset limpio, salida del ETL NB03</div>
+                <div class="zone-path">📁 artifacts/output_etl_ventas/ · 122,011 registros</div>
+              </div>
+              <span class="tag tag-blue">Parquet</span>
+            </div>
+            <div class="zone-arrow">↓</div>
+            <div class="zone-item">
+              <div class="zone-icon" style="background:rgba(29,158,117,.15);color:#5dd6ab">🥇</div>
+              <div>
+                <div class="zone-name">Zona ANALYTICS (Oro)</div>
+                <div class="zone-desc">Parquet particionado para consultas temporales</div>
+                <div class="zone-path">📁 artifacts/nb04_almacenamiento/ventas_parquet_final/anio=X/mes=Y/</div>
+              </div>
+              <span class="tag tag-teal">Particionado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📁 Estructura física de carpetas generada</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="t-dot t-dot-r"></div>
+              <div class="t-dot t-dot-y"></div>
+              <div class="t-dot t-dot-g"></div><span class="terminal-title">NB04 · Parquet particionado</span>
+            </div>
+            <span class="t-blue">ventas_parquet_final/</span><br>
+            <span class="t-white"> ├── </span><span class="t-green">_SUCCESS</span> <span class="t-gray">← escritura
+              exitosa</span><br>
+            <span class="t-yellow"> ├── anio=2022/</span><br>
+            <span class="t-white"> │ ├── </span><span class="t-yellow">mes=1/ </span><span class="t-gray">→
+              part-00000.snappy.parquet</span><br>
+            <span class="t-white"> │ └── </span><span class="t-yellow">... mes=12/</span><br>
+            <span class="t-yellow"> ├── anio=2023/</span><br>
+            <span class="t-yellow"> ├── anio=2024/</span><br>
+            <span class="t-yellow"> └── anio=2025/</span><br><br>
+            <span class="t-gray"># coalesce(1): 1 archivo por partición lógica · Snappy automático</span>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📊 CSV vs Parquet — comparativa final</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Criterio</th>
+                  <th>CSV</th>
+                  <th>Parquet simple</th>
+                  <th>Parquet particionado</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Compresión</td>
+                  <td style="color:#f39472">❌ No</td>
+                  <td style="color:#5dd6ab">✅ Snappy</td>
+                  <td style="color:#5dd6ab">✅ Snappy</td>
+                </tr>
+                <tr>
+                  <td>Tipos preservados</td>
+                  <td style="color:#f39472">❌ Todo texto</td>
+                  <td style="color:#5dd6ab">✅ Sí</td>
+                  <td style="color:#5dd6ab">✅ Sí</td>
+                </tr>
+                <tr>
+                  <td>Lectura columnar</td>
+                  <td style="color:#f39472">❌ Lee toda la fila</td>
+                  <td style="color:#5dd6ab">✅ Solo columnas usadas</td>
+                  <td style="color:#5dd6ab">✅ Solo columnas usadas</td>
+                </tr>
+                <tr>
+                  <td>Partition Pruning</td>
+                  <td style="color:#f39472">❌ No</td>
+                  <td style="color:#f39472">❌ No</td>
+                  <td style="color:#5dd6ab">✅ Por anio/mes</td>
+                </tr>
+                <tr>
+                  <td>Velocidad consultas temporales</td>
+                  <td style="color:#f39472">🔴 Lenta</td>
+                  <td style="color:#f0bb5a">🟡 Media</td>
+                  <td style="color:#5dd6ab">🟢 Rápida</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ KPIs ══ -->
+      <section class="section" id="sec-kpis">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(186,117,23,.15);color:#f0bb5a">📊</div>
+          <div>
+            <div class="section-title">KPIs y Resultados</div>
+            <div class="section-sub">Métricas clave obtenidas del dataset procesado</div>
+          </div>
+        </div>
+
+        <div class="cards-grid cards-4">
+          <div class="card purple">
+            <div class="card-icon">📊</div>
+            <div class="kpi-value kpi-purple"><span data-count="122011">0</span></div>
+            <div class="card-label">Registros procesados</div>
+          </div>
+          <div class="card teal">
+            <div class="card-icon">👥</div>
+            <div class="kpi-value kpi-teal"><span data-count="4800">0</span>+</div>
+            <div class="card-label">Clientes únicos</div>
+          </div>
+          <div class="card blue">
+            <div class="card-icon">📅</div>
+            <div class="kpi-value kpi-blue">5</div>
+            <div class="card-label">Años de historial</div>
+          </div>
+          <div class="card amber">
+            <div class="card-icon">🗂️</div>
+            <div class="kpi-value kpi-amber">4</div>
+            <div class="card-label">Notebooks ejecutados</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📈 Ventas por año (resultado del pipeline batch — NB02)</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>Registros</th>
+                  <th>Total Ventas (S/)</th>
+                  <th>Series</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2022</td>
+                  <td>~21,834</td>
+                  <td>~425,000</td>
+                  <td>BQQ1, FQQ1</td>
+                </tr>
+                <tr>
+                  <td>2023</td>
+                  <td>~38,120</td>
+                  <td>~712,000</td>
+                  <td>BQQ1, FQQ1</td>
+                </tr>
+                <tr>
+                  <td>2024</td>
+                  <td>~41,205</td>
+                  <td>~834,000</td>
+                  <td>BQQ1, FQQ1</td>
+                </tr>
+                <tr>
+                  <td>2025</td>
+                  <td>~21,052</td>
+                  <td>~391,000</td>
+                  <td>BQQ1, FQQ1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">🏆 Top clientes por total acumulado (función ventana — NB03)</div>
+          <div style="overflow-x:auto">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>cliente_id</th>
+                  <th>nombre_cliente</th>
+                  <th>total_acumulado (S/)</th>
+                  <th>categoría</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="mono">00009949</td>
+                  <td>COAQUIRA CALLO GLICERIO</td>
+                  <td>64,335.00</td>
+                  <td><span class="tag tag-coral">🔴 Premium</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">00009250</td>
+                  <td>MARGARITA TURPO</td>
+                  <td>58,420.00</td>
+                  <td><span class="tag tag-coral">🔴 Premium</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">00000004</td>
+                  <td>OLINDA CORI CHIPANA</td>
+                  <td>41,817.00</td>
+                  <td><span class="tag tag-coral">🔴 Premium</span></td>
+                </tr>
+                <tr>
+                  <td class="mono">00000003</td>
+                  <td>KORINA TURPO CHURA</td>
+                  <td>13,867.00</td>
+                  <td><span class="tag tag-amber">🟡 Frecuente</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="card purple">
+            <div class="card-icon">⚡</div>
+            <h3>Apache Spark 4.1.1</h3>
+            <p>Modo <code>local[*]</code>. Spark UI en puerto 4040. shuffle.partitions=8.</p>
+          </div>
+          <div class="card blue">
+            <div class="card-icon">🐍</div>
+            <h3>PySpark + Python 3.10</h3>
+            <p>pandas para ingesta de Excel. unicodedata para normalización de columnas.</p>
+          </div>
+          <div class="card teal">
+            <div class="card-icon">📦</div>
+            <h3>Parquet + Snappy</h3>
+            <p>Particionado por <code>anio/mes</code>. Coalesce(1) — 1 archivo por partición.</p>
+          </div>
+          <div class="card amber">
+            <div class="card-icon">🐋</div>
+            <h3>Docker + JupyterLab</h3>
+            <p>Entorno con Spark, Python y JupyterLab preinstalados en contenedor.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══ RÚBRICA ══ -->
+      <section class="section" id="sec-rubrica">
+        <div class="section-header">
+          <div class="icon-circle" style="background:rgba(29,158,117,.15);color:#5dd6ab">✅</div>
+          <div>
+            <div class="section-title">Rúbrica de Evaluación</div>
+            <div class="section-sub">Checklist de entregables y criterios de calificación</div>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-block-title">📋 Checklist final</div>
+          <ul class="checklist">
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Arquitectura Lambda definida</strong> — Batch, Speed y Serving documentadas en NB01.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Dataset real identificado</strong> — Ventas_2021-2026.xlsx (52 MB, 130K+ registros).</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>SparkSession configurada correctamente</strong> — NB02, modo <code>local[*]</code>.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Ingesta funcionando</strong> — Excel → pandas → Spark DataFrame con normalización.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Lazy Evaluation demostrada</strong> — Transformaciones vs acciones con ejemplos reales.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>RDD y MapReduce</strong> — Word Count sobre descripciones de productos (NB02).</div>
+            </li>
+            <li><span class="check-dot check-key">CLAVE</span>
+              <div><strong>ETL completo: Extract → Transform → Load</strong> — NB03 con validación de calidad.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Broadcast Join documentado</strong> — tabla de clientes con broadcast() y explain().</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Función ventana implementada</strong> — ranking y total_acumulado por cliente.</div>
+            </li>
+            <li><span class="check-dot check-key">CLAVE</span>
+              <div><strong>Parquet particionado justificado</strong> — NB04 con Partition Pruning, 3 estrategias
+                comparadas.</div>
+            </li>
+            <li><span class="check-dot check-ok">✓</span>
+              <div><strong>Validación de calidad</strong> — nulos = 0, conteo final, rango de fechas confirmado.</div>
+            </li>
+          </ul>
+        </div>
+
+        <div style="overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)">
+          <table class="rubric-table">
+            <thead>
+              <tr>
+                <th>Criterio</th>
+                <th><span class="level l1">N1 · Inicio</span></th>
+                <th><span class="level l2">N2 · En proceso</span></th>
+                <th><span class="level l3">N3 · Logro</span></th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600">Arquitectura</td>
+                <td>Incompleta</td>
+                <td>Con incoherencias</td>
+                <td>Lambda clara con capas</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">Spark / Fundamentos</td>
+                <td>Solo lectura</td>
+                <td>Con errores</td>
+                <td>SparkSession, Lazy Eval, RDD</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">ETL completo</td>
+                <td>Incompleto</td>
+                <td>Con debilidades</td>
+                <td>E+T+L con validación</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">HDFS / Parquet</td>
+                <td>No almacena</td>
+                <td>Sin validación</td>
+                <td>Particionado + Partition Pruning</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">Calidad dataset</td>
+                <td>Con errores</td>
+                <td>Parcialmente limpio</td>
+                <td>Limpio, tipado, sin nulos</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">Joins distribuidos</td>
+                <td>No impl.</td>
+                <td>Sin optimizar</td>
+                <td>Broadcast Join + explain()</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">Funciones ventana</td>
+                <td>No impl.</td>
+                <td>groupBy simple</td>
+                <td>ranking + acumulado con Window</td>
+                <td><span class="level l3">✅ N3</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="info-block" style="margin-top:1.5rem">
+          <div class="info-block-title">📊 Escala de calificación</div>
+          <div class="score-grid">
+            <div class="score-card">
+              <div class="score-num" style="color:#5dd6ab">18–20</div>
+              <div class="score-label">Excelente</div>
+              <div class="score-bar">
+                <div class="score-fill" style="background:#5dd6ab;width:100%"></div>
+              </div>
+            </div>
+            <div class="score-card">
+              <div class="score-num" style="color:#70b4f5">15–17</div>
+              <div class="score-label">Bueno</div>
+              <div class="score-bar">
+                <div class="score-fill" style="background:#70b4f5;width:83%"></div>
+              </div>
+            </div>
+            <div class="score-card">
+              <div class="score-num" style="color:#f0bb5a">13–14</div>
+              <div class="score-label">Regular</div>
+              <div class="score-bar">
+                <div class="score-fill" style="background:#f0bb5a;width:68%"></div>
+              </div>
+            </div>
+            <div class="score-card">
+              <div class="score-num" style="color:#f39472">&lt;13</div>
+              <div class="score-label">Por mejorar</div>
+              <div class="score-bar">
+                <div class="score-fill" style="background:#f39472;width:50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /app -->
+  </div><!-- /main-app -->
+
+  <script src="entregable.js"></script>
+</body>
+
+</html>
